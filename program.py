@@ -1,18 +1,18 @@
 import random
 
 class Equipo:
-    def _init_(self, nombre="", partidosganados=0, partidosperdidos=0, setganados=0):
+    def __init__(self, nombre="", partidosganados=0, partidosperdidos=0, setganados=0):
         self.nombre = nombre
         self.partidosganados = partidosganados
         self.partidosperdidos = partidosperdidos
         self.setganados = setganados
 
-    def _str_(self):
+    def __str__(self):
         return f"Equipo: {self.nombre}"
 
 
-equipo1 = Equipo()
-equipo2 = Equipo()
+e1 = Equipo()
+e2 = Equipo()
 
 
 def Puntos():
@@ -23,26 +23,30 @@ def Puntosextras():
 
 def RegistrarSet(nroequipo):
     if nroequipo == 1:
-        ganador, rival = equipo1, equipo2
+        ganador, r = e1, e2
     else:
-        ganador, rival = equipo2, equipo1
+        ganador, rl = e2, e1
+
     ganador.setganados += 1
     
     print(f"\n> Set para: {ganador.nombre}")
-    print(f"  Marcador Actual: {equipo1.nombre} ({equipo1.setganados}) - {equipo2.nombre} ({equipo2.setganados})")
+    print(f"Marcador Actual: {e1.nombre} ({e1.setganados}) - {e2.nombre} ({e2.setganados})")
     
     if ganador.setganados == 3:
         ganador.partidosganados += 1
-        rival.partidosperdidos += 1
-        print(f"\n¡Gano el equipo :{ganador.nombre}")     
-        equipo1.setganados = 0
-        equipo2.setganados = 0
+        r.partidosperdidos += 1
+        print(f"\n¡Ganó el equipo: {ganador.nombre}!")     
+        e1.setganados = 0
+        e2.setganados = 0
         return True
+
     return False
 
+
 def JugarPartido():
-    print(f"\n--- Iniciando partido: Equipo 1: {equipo1.nombre} Equipo 2: {equipo2.nombre} ---")
+    print(f"\n--- Partido: {e1.nombre} vs {e2.nombre} ---")
     termino = False
+
     while not termino:
         p1 = Puntos()
         p2 = Puntos()
@@ -56,38 +60,38 @@ def JugarPartido():
         else:
             termino = RegistrarSet(2)
 
-def ResultadoTorneo():
-    print("\n--- RESUMEN DEL TORNEO ---")
-    print(f" {equipo1.nombre} G: {equipo1.partidosganados} | P: {equipo1.partidosperdidos}")
-    print(f" {equipo2.nombre} G: {equipo2.partidosganados} | P: {equipo2.partidosperdidos}")
-   
 
-# 3. Menú Principal
+def ResultadoTorneo():
+    print("\n--- RESULTADO FINAL ---")
+    print(f"{e1.nombre} → Ganados: {e1.partidosganados} | Perdidos: {e1.partidosperdidos}")
+    print(f"{e2.nombre} → Ganados: {e2.partidosganados} | Perdidos: {e2.partidosperdidos}")
+
+
 while True:
-    print("\n--- SISTEMA DE GESTIÓN DE VOLEY ---")
-    print("1. Iniciar Torneo (Registrar y Jugar)")
+    print("\n SISTEMA DE VOLEY")
+    print("1. Iniciar")
     print("2. Salir")
     
     try:
-        opc = int(input("Seleccione una opción: "))
+        opc = int(input("eliga una opción: "))
         
         if opc == 1:
-            equipo1.nombre = input("\nNombre del Equipo 1: ")
-            equipo2.nombre = input("Nombre del Equipo 2: ")
-            n_partidos = int(input(f"¿Cuántos partidos jugarán {equipo1.nombre} contra {equipo2.nombre}?: "))
+            e1.nombre = input("\nNombre del Equipo 1: ")
+            e2.nombre = input("Nombre del Equipo 2: ")
+
+            n_partidos = int(input("¿Cuántos partidos?: "))
             
             for i in range(n_partidos):
-                print(f"\n--- ENFRENTAMIENTO #{i+1} ---")
+                print(f"\n--- PARTIDO #{i+1} ---")
                 JugarPartido()
-            
-            # Al terminar todos los partidos, mostrar tabla final
-            ResultadoTorneo()
-            
+
+            ResultadoTorneo() 
+
         elif opc == 2:
-            print("Cerrando el sistema")
+            print("")
             break
         else:
-            print("Opción no válida, intente de nuevo.")
+            print("Error")
             
     except ValueError:
-        print("Error: Por favor ingrese solo números.")
+        print("solo numeros")
